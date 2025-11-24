@@ -117,10 +117,15 @@
 
     /* Budget & Period tags */
     .tags-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
         margin-top: 10px;
+    }
+
+    .tags-container label {
+        width: 100%;
+        margin: 0;
     }
 
     .hidden-input { 
@@ -128,21 +133,33 @@
     }
 
     .tag-label {
-        background: #f0f0f0;
-        padding: 10px 20px;
-        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #f8f9fa;
+        padding: 10px 5px;
+        border-radius: 12px;
         cursor: pointer;
         font-weight: 500;
+        font-size: 0.9rem;
         color: #555;
-        transition: 0.2s;
-        border: 2px solid transparent;
+        transition: all 0.2s ease;
+        border: 1px solid #eee;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .tag-label:hover {
+        background: #eee;
     }
 
     .hidden-input:checked + .tag-label {
-        background: #007B7F;
-        color: white;
-        border-color: #005f62;
-        transform: translateY(-2px);
+        background: #e0f7fa;
+        color: #007B7F;
+        border-color: #007B7F;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0,123,127,0.1);
     }
 
     /* Submit button */
@@ -238,74 +255,236 @@
             </div>
         </div>
 
-        <!-- Avontuurlijkheid -->
+        <!-- 1. Basis Vibe -->
         <div class="question-group">
-            <label class="question-label">4. Hoe avontuurlijk ben je?</label>
+            <label class="question-label">1. Hoe avontuurlijk ben je op reis?</label>
             <div class="rating-container">
                 <div class="rating-labels">
-                    <span>😌 Rustig & ontspannen</span>
-                    <span>🔥 Zeer avontuurlijk</span>
+                    <span>😌 Liever rustig</span>
+                    <span>🔥 Zoek constant avontuur</span>
                 </div>
-                <input type="range" name="adventure_level" min="1" max="5" value="3" 
+                <input type="range" name="adventure_level" min="1" max="5" value="{{ profile.adventure_level if profile else 3 }}" 
                        oninput="this.nextElementSibling.innerText = this.value">
-                <div class="rating-value">3</div>
+                <div class="rating-value">{{ profile.adventure_level if profile else 3 }}</div>
             </div>
         </div>
 
-        <!-- Feestgehalte -->
         <div class="question-group">
-            <label class="question-label">5. Hoe belangrijk is uitgaan & feesten?</label>
+            <label class="question-label">2. Strand & Zon</label>
             <div class="rating-container">
                 <div class="rating-labels">
-                    <span>🛌 Liever rustige avonden</span>
-                    <span>🎉 Elke avond feest!</span>
+                    <span>🚫 Geen zand aub</span>
+                    <span>🏖️ Hele dag bakken</span>
                 </div>
-                <input type="range" name="party_level" min="1" max="5" value="3"
+                <input type="range" name="beach_person" min="1" max="5" value="{{ profile.beach_person if profile else 3 }}"
                        oninput="this.nextElementSibling.innerText = this.value">
-                <div class="rating-value">3</div>
+                <div class="rating-value">{{ profile.beach_person if profile else 3 }}</div>
             </div>
         </div>
 
-        <!-- Cultuur -->
         <div class="question-group">
-            <label class="question-label">6. Hoeveel interesse heb je in cultuur & bezienswaardigheden?</label>
+            <label class="question-label">3. Hoe geïnteresseerd ben je in cultuur (musea, geschiedenis, tradities)?</label>
             <div class="rating-container">
                 <div class="rating-labels">
-                    <span>😐 Weinig interesse</span>
-                    <span>🏛️ Heel cultureel</span>
+                    <span>🥱 Slaapverwekkend</span>
+                    <span>🏛️ Museumrat</span>
                 </div>
-                <input type="range" name="culture_level" min="1" max="5" value="3"
+                <input type="range" name="culture_interest" min="1" max="5" value="{{ profile.culture_interest if profile else 3 }}"
                        oninput="this.nextElementSibling.innerText = this.value">
-                <div class="rating-value">3</div>
+                <div class="rating-value">{{ profile.culture_interest if profile else 3 }}</div>
             </div>
         </div>
 
-        <!-- Eten -->
         <div class="question-group">
-            <label class="question-label">7. Hoe belangrijk is lekker eten voor jou?</label>
+            <label class="question-label">4. Feestgehalte</label>
             <div class="rating-container">
                 <div class="rating-labels">
-                    <span>🍕 Gewoon eten is prima</span>
-                    <span>🍜 Echte foodie!</span>
+                    <span>🍵 Thee & Boek</span>
+                    <span>🎉 Tot het gaatje</span>
                 </div>
-                <input type="range" name="food_level" min="1" max="5" value="3"
+                <input type="range" name="party_animal" min="1" max="5" value="{{ profile.party_animal if profile else 3 }}"
                        oninput="this.nextElementSibling.innerText = this.value">
-                <div class="rating-value">3</div>
+                <div class="rating-value">{{ profile.party_animal if profile else 3 }}</div>
             </div>
         </div>
 
-        <!-- Natuur -->
         <div class="question-group">
-            <label class="question-label">8. Hoeveel hou je van natuur & outdooractiviteiten?</label>
+            <label class="question-label">5. Hoe graag ontdek je natuur & landschappen?</label>
             <div class="rating-container">
                 <div class="rating-labels">
-                    <span>🏙️ Liever de stad</span>
-                    <span>🌲 Natuur lover!</span>
+                    <span>🏙️ Asfalt & Stad</span>
+                    <span>🌲 Into the Wild</span>
                 </div>
-                <input type="range" name="nature_level" min="1" max="5" value="3"
+                <input type="range" name="nature_lover" min="1" max="5" value="{{ profile.nature_lover if profile else 3 }}"
                        oninput="this.nextElementSibling.innerText = this.value">
-                <div class="rating-value">3</div>
+                <div class="rating-value">{{ profile.nature_lover if profile else 3 }}</div>
             </div>
+        </div>
+
+        <!-- 2. Jouw Reisstijl -->
+        <div class="question-group">
+            <label class="question-label">6. Hoe belangrijk is comfort qua verblijf?</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>⛺ Basic hostels</span>
+                    <span>💎 Comfort hotels</span>
+                </div>
+                <input type="range" name="luxury_comfort" min="1" max="5" value="{{ profile.luxury_comfort if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.luxury_comfort if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">7. Ochtendhumeur?</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>😴 Snooze button</span>
+                    <span>🌅 Voor de zon op</span>
+                </div>
+                <input type="range" name="morning_person" min="1" max="5" value="{{ profile.morning_person if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.morning_person if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">8. Hoe spontaan wil je dat een groepsreis is?</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>📋 Alles plannen</span>
+                    <span>🍃 Alles loslaten</span>
+                </div>
+                <!-- Let op: 1=Plannen, 5=Loslaten. In DB heet dit 'planning_freak'. 
+                     Als planning_freak 1=YOLO en 5=Excel was, dan is dit nu omgedraaid.
+                     We gebruiken de variabele 'planning_freak' maar de betekenis is nu:
+                     1 = Alles plannen (High Planning)
+                     5 = Alles loslaten (High Spontaneity)
+                -->
+                <input type="range" name="planning_freak" min="1" max="5" value="{{ profile.planning_freak if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.planning_freak if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">9. Eten</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>🥪 Brandstof</span>
+                    <span>🍜 Culinair genot</span>
+                </div>
+                <input type="range" name="foodie_level" min="1" max="5" value="{{ profile.foodie_level if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.foodie_level if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">10. Hoe graag doe je sportieve activiteiten op reis?</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>🛗 Lift nemen</span>
+                    <span>🏃‍♂️ Berg oprennen</span>
+                </div>
+                <input type="range" name="sporty_spice" min="1" max="5" value="{{ profile.sporty_spice if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.sporty_spice if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">11. Hoe comfortabel voel je je in chaotische of drukke omgevingen?</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>🤯 Stresskip</span>
+                    <span>🧘 Zen Master</span>
+                </div>
+                <input type="range" name="chaos_tolerance" min="1" max="5" value="{{ profile.chaos_tolerance if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.chaos_tolerance if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <!-- 3. Wat vind je leuk? -->
+        <div class="question-group">
+            <label class="question-label">12. Citytrips</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>🏙️ Mwah</span>
+                    <span>😍 Ja graag!</span>
+                </div>
+                <input type="range" name="city_trip" min="1" max="5" value="{{ profile.city_trip if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.city_trip if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">13. Roadtrips</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>✈️ Liever vliegen</span>
+                    <span>🚐 Roadtrip baby!</span>
+                </div>
+                <input type="range" name="road_trip" min="1" max="5" value="{{ profile.road_trip if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.road_trip if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">14. Backpacken</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>🧳 Koffer</span>
+                    <span>🎒 Rugzak</span>
+                </div>
+                <input type="range" name="backpacking" min="1" max="5" value="{{ profile.backpacking if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.backpacking if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">15. Contact met Locals</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>🫧 Eigen bubbel</span>
+                    <span>🌍 Locals ontmoeten</span>
+                </div>
+                <input type="range" name="local_contact" min="1" max="5" value="{{ profile.local_contact if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.local_contact if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <label class="question-label">16. Digital Detox</label>
+            <div class="rating-container">
+                <div class="rating-labels">
+                    <span>📱 Wifi nodig</span>
+                    <span>📵 Offline gaan</span>
+                </div>
+                <input type="range" name="digital_detox" min="1" max="5" value="{{ profile.digital_detox if profile else 3 }}"
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <div class="rating-value">{{ profile.digital_detox if profile else 3 }}</div>
+            </div>
+        </div>
+
+        <!-- NIEUW: BUDDY SECTIE -->
+        <div style="background: #e0f7fa; padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid #b2dfdb;">
+            <h3 style="color: #007B7F; margin-top: 0;">👥 Reis je samen?</h3>
+            <p style="color: #555; font-size: 0.9rem; margin-bottom: 15px;">
+                Wil je zeker weten dat je bij je partner of beste vriend(in) in de groep komt? Vul hier hun e-mailadres in.
+            </p>
+            
+            <label class="question-label" style="margin-bottom: 5px;">E-mailadres van je reispartner (optioneel)</label>
+            <input type="email" name="buddy_email" placeholder="bv. partner@example.com" style="width: 100%; padding: 12px; border: 2px solid #b2dfdb; border-radius: 10px;">
+            
+            <p style="font-size: 0.8rem; color: #007B7F; margin-top: 10px;">
+                ℹ️ Zorg dat je partner zich ook registreert met dit e-mailadres!
+            </p>
         </div>
 
         <button type="submit" class="submit-btn">Profiel Opslaan & Matches Vinden 🚀</button>
